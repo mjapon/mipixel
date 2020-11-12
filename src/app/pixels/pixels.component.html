@@ -1,0 +1,91 @@
+<div style="margin: 20px">
+  <div class="contenedorpixel" id="contenedorpixel">
+    <a *ngFor="let item of pixels; trackBy: trackByImgs" href="{{item.px_url}}" target="_blank"
+       title="{{item.px_texto}}">
+      <img [style]="getcss(item)" [src]="geturlimage(item)"/>
+    </a>
+    <table class="cuadricula" id="tablacuadricula">
+      <tr *ngFor="let roxpx of pixelsmatrix; trackBy: trackByFunctionRow">
+        <td *ngFor="let px of roxpx; trackBy: trackByFunctionCol" class="hand" (mouseover)="onMouseOver($event,px)"
+            [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)" (mouseup)="mouseup($event, px)"
+            id="px{{px.x+'-'+px.y}}" width="{{anchocelda}}px" height="{{altocelda}}px">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade " id="modalCompra" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <b>Detalles de la compra</b>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="emailinput" class="col-md-3"> <span class="required">*</span> Dirección de correo: </label>
+          <div class="col-md-9">
+            <input type="text" id="emailinput" class="form-control" value="" [(ngModel)]="form.email"
+                   placeholder="abc@mail.com">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="costopxinput" class="col-md-3"> <span class="required">*</span> Enlace:</label>
+          <div class="col-md-9">
+            <input type="text" id="enlaceinput" class="form-control" value="" [(ngModel)]="form.url"
+                   placeholder="http://misitio.com"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="costopxinput" class="col-md-3"> <span class="required">*</span> Descripción:</label>
+          <div class="col-md-9">
+            <input type="text" id="descinput" class="form-control" value="" [(ngModel)]="form.detalle"
+                   placeholder="Detalle corto" maxlength="50"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="nropixelinput" class="col-md-3"> Nro Pixeles:</label>
+          <div class="col-md-9">
+            <input type="text" id="nropixelinput" class="form-control" value="" [(ngModel)]="form.numpx" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="costopxinput" class="col-md-3">Costo por pixel:</label>
+          <div class="col-md-9">
+            <input type="text" id="costopxinput" class="form-control" value="" [(ngModel)]="form.costopx" readonly>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="costototinput" class="col-md-3">Total USD:</label>
+          <div class="col-md-9">
+            <input type="text" id="costototinput" class="form-control" value=""
+                   [(ngModel)]="form.costototal" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="archivoinput" class="col-md-3"><span class="required">*</span> Imagen:</label>
+          <div class="col-md-9">
+            <input type="file" id="archivoinput" accept="image/*" class="form-control-file"
+                   (change)="onFileChange($event)"/>
+          </div>
+        </div>
+        <div>
+          <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="80px"
+               height="80px"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-md">
+            <button class="btn btn-outline-primary" (click)="guardaForm()"> Guardar</button>
+          </div>
+          <div class="col-md">
+            <button class="btn btn-outline-secondary" (click)="closemodal()"> Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

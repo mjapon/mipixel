@@ -1,1 +1,88 @@
 /* You can add global styles to this file, and also import other style files */
+.contenedorpixel {
+  border: 1px solid #bfbfbf;
+  width: 100%;
+  height: 1010px !important;
+  min-height: 1010px !important;
+  overflow: auto;
+}
+
+.cuadricula {
+  width: 100% !important;
+  overflow: scroll;
+}
+
+.cuadricula
+td {
+  border: 1px solid rgba(188, 174, 181, 0.55);
+  margin: 0px !important;
+  padding: 0px !important;
+  background-color: white;
+  min-width: 9px !important;
+  min-height: 9px !important;
+}
+
+.cuadricula
+td:hover {
+  border: 1px solid #57a5ff;
+  background-color: #57a5ff;
+}
+
+.hand {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.marcado {
+  border: 1px solid #ff3d19 !important;
+  background-color: #14ff8b !important;
+}
+
+.marcadoerror {
+  border: 1px solid #000000 !important;
+  background-color: #ff3013 !important;
+}
+
+.center {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 0px solid #FFFF00;
+  padding: 10px;
+  z-index: 100;
+}
+
+.footer {
+  background-color: #3A3A3A;
+  color: white;
+  padding: 40px 10px;
+}
+
+.fondonegro{
+  background-color: black;
+  opacity: 0.4;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.required{
+  color: #f21d00;
+}

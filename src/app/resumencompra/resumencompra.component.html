@@ -1,0 +1,46 @@
+<div class="row justify-content-center" style="margin-bottom: 20px">
+  <div class="col-md-10">
+    <div class="card border-success">
+      <div class="card-body">
+        <div class="alert alert-warning">
+          <h4>
+            Gracias por realizar su compra, recuerde que debe realizar la transferencia a la cuenta nro
+            #XXXXXXXX del banco XXXXXX, y enviar el comprobante a la direccion de correo:alguien@gmail.com
+            para poder confirmar su compra
+          </h4>
+        </div>
+        <h5 style="margin-top: 30px">A continuación se muestra el resumen de su compra: </h5>
+        <div class="row">
+          <div class="col-md-4">
+            <span> Dirección de correo:</span>
+          </div>
+          <div class="col-m2-8">
+            <b>{{pixelinfo.px_email}}</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <span>Nro Pixels:</span>
+          </div>
+          <div class="col-m2-8">
+            <b>{{pixelinfo.px_numpx}}</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <span>Monto:</span>
+          </div>
+          <div class="col-m2-8">
+            <b>{{pixelinfo.px_costo}} USD</b>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="text-center">
+          <button class="btn btn-outline-primary" (click)="cerrar()"> Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,45 @@
+<div style="margin: 20px">
+  <div>
+    <h2>Listado de pixels</h2>
+    <table class="table table-bordered">
+      <tr>
+        <th><b> Codigo</b></th>
+        <th><b>Fecha creación</b></th>
+        <th><b>Estado</b></th>
+        <th><b>Cliente</b></th>
+        <th><b>Nro Pixeles</b></th>
+        <th><b>Monto</b></th>
+        <th><b>Acción</b></th>
+      </tr>
+      <tr *ngFor="let item of pixels">
+        <td>
+          {{item.px_id}}
+        </td>
+        <td>
+          {{item.px_fecharegistro}}
+        </td>
+        <td>
+          {{item.estado}}
+        </td>
+        <td>
+          {{item.px_email}}
+        </td>
+        <td>
+          {{item.px_numpx}}
+        </td>
+        <td>
+          {{item.px_costo}}
+        </td>
+        <td>
+          <button *ngIf="item.px_estado===0" (click)="anular(item)" class="btn btn-outline-primary">Anular</button>
+          <button *ngIf="item.px_estado===0" (click)="confirmar(item)" class="btn btn-outline-primary">Confirmar</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+
+
+
