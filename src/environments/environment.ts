@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrlEndPoint: 'http://192.168.0.111:6543',
+  baseUrlEndPoint: 'http://192.168.0.116:6543',
 };
 
 /*

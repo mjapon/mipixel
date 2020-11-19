@@ -28,4 +28,13 @@ export class SwalService {
   fireError(msg: string, title: string = 'Mensaje') {
     this.showMsg(msg, 'error', title);
   }
+
+  fireDialog(msg: string, ptitle: string = '¿Esta segur@?') {
+    return swal.fire({
+      title: ptitle,
+      text: msg,
+      showConfirmButton: true,
+      showCancelButton: true
+    });
+  }
 }

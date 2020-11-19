@@ -6,6 +6,8 @@ import {FautService} from '../services/faut.service';
 import {Router} from '@angular/router';
 import {PixelsecureService} from '../services/pixelsecure.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-pixelsadmin',
   templateUrl: './pixelsadmin.component.html',
@@ -13,6 +15,7 @@ import {PixelsecureService} from '../services/pixelsecure.service';
 })
 export class PixelsadminComponent implements OnInit {
   pixels = [];
+  pixelinfo: any;
 
   constructor(private pixelSecService: PixelsecureService,
               private pixelService: PixelService,
@@ -24,6 +27,7 @@ export class PixelsadminComponent implements OnInit {
 
   ngOnInit(): void {
     this.verificarLogueado();
+    this.pixelinfo = {};
   }
 
   verificarLogueado() {
@@ -44,6 +48,7 @@ export class PixelsadminComponent implements OnInit {
     const msg = prompt('Ingrese una observación', '');
     if (msg) {
       this.loadinUiService.publishBlockMessage();
+      this.closemodal();
       this.pixelSecService.confirmar(pixel.px_id, msg).subscribe(res => {
         if (res.status === 200) {
           this.swalSerice.fireSuccess(res.msg);
@@ -57,6 +62,7 @@ export class PixelsadminComponent implements OnInit {
     const msg = prompt('Ingrese el motivo de la anulación', '');
     if (msg) {
       this.loadinUiService.publishBlockMessage();
+      this.closemodal();
       this.pixelSecService.anular(pixel.px_id, msg).subscribe(res => {
         if (res.status === 200) {
           this.swalSerice.fireSuccess(res.msg);
@@ -65,4 +71,26 @@ export class PixelsadminComponent implements OnInit {
       });
     }
   }
+
+  closemodal() {
+    $('#modalDetalleCompra').modal('hide');
+  }
+
+  verDetalles(item: any) {
+    this.pixelinfo = {};
+    this.loadinUiService.publishBlockMessage();
+    this.pixelService.getInfoPixel(item.px_id).subscribe(res => {
+      if (res.status === 200) {
+        this.pixelinfo = res.pixel;
+        $('#modalDetalleCompra').modal('show');
+      } else {
+        this.swalSerice.fireError(res.msg);
+      }
+    });
+  }
+
+  geturlimage(pixel) {
+    return this.pixelService.getUrlImage(pixel);
+  }
+
 }

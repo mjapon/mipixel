@@ -1,14 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 .contenedorpixel {
   border: 1px solid #bfbfbf;
-  width: 100%;
+  width: 1010px !important;/*1000 */
   height: 1010px !important;
   min-height: 1010px !important;
   overflow: auto;
 }
 
 .cuadricula {
-  width: 100% !important;
+  position: relative;
   overflow: scroll;
 }
 
@@ -18,8 +18,10 @@ td {
   margin: 0px !important;
   padding: 0px !important;
   background-color: white;
-  min-width: 9px !important;
-  min-height: 9px !important;
+  width: 10px !important;
+  height: 10px !important;
+  min-width: 10px !important;
+  min-height: 10px !important;
 }
 
 .cuadricula
@@ -85,4 +87,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 .required{
   color: #f21d00;
+}
+
+.bold{
+  opacity: 0.5;
+}
+
+.celdapixel{
+  width: 10px !important;
+  height: 10px !important;
 }

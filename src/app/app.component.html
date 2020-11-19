@@ -6,11 +6,16 @@
   </h5>
   <nav class="my-2 my-md-0 mr-md-3">
     <a class="p-2 text-dark" routerLink="/">Pixels</a>
+    <a class="p-2 text-dark" routerLink="/contacto">Contacto</a>
     <a class="p-2 text-dark" *ngIf="islogged" routerLink="/admin">Administrar</a>
 
     <a class="p-2 text-dark" *ngIf="islogged"> {{userlogged.pxus_nombre}} </a>
-    <a class="btn btn-outline-primary" (click)="login()" *ngIf="!islogged">Ingresar</a>
-    <a class="btn btn-outline-primary" (click)="logout()" *ngIf="islogged">Salir</a>
+    <a class="btn btn-outline-warning btn-sm" (click)="login()" *ngIf="!islogged">
+      <i class="fas fa-sign-in-alt"></i>
+      Ingresar</a>
+    <a class="btn btn-outline-warning btn-sm" (click)="logout()" *ngIf="islogged">
+      <i class="fas fa-sign-out-alt"></i>
+      Salir</a>
   </nav>
 </div>
 
@@ -19,10 +24,10 @@
 <div class="fondonegro" *ngIf="showloading">
 </div>
 <div class="center" *ngIf="showloading">
-  <img src="assets/imgs/loadinghomero.gif" alt="">
+  <img src="assets/imgs/mipxloading.gif" alt="">
 </div>
 
 <footer class="footer text-center">
-  Copyright 2020 Mi Pixel | Desarrollado por <a href="http://agenciachel.com">agenciachel.com</a> Version:<span
+  Copyright 2020 Mi Pixel | Desarrollado por <a href="http://agenciachel.com">agenciachel.com</a> Versión: 1.0<span
   app-version></span>
 </footer>

@@ -37,6 +37,8 @@ export class ResumencompraComponent implements OnInit {
 
   cerrar() {
     this.loadingUiService.publishBlockMessage();
-    this.router.navigate(['*']);
+    setTimeout(() => {
+      this.router.navigate(['*']);
+    }, 200);
   }
 }

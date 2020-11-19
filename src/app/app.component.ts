@@ -24,9 +24,17 @@ export class AppComponent implements OnInit {
     this.showloading = false;
     this.loadingUiService.source.subscribe(msg => {
       if (msg === 'block') {
-        this.showloading = true;
+        setTimeout(() => {
+            this.showloading = true;
+          },
+          10
+        );
       } else if (msg === 'unblock') {
-        this.showloading = false;
+        setTimeout(() => {
+            this.showloading = false;
+          },
+          100
+        );
       }
     });
     this.verificarLogueado();

@@ -11,6 +11,7 @@ import {AuditInterceptorService} from './services/audit-interceptor.service';
 import { PixelrowComponent } from './pixelrow/pixelrow.component';
 import { ResumencompraComponent } from './resumencompra/resumencompra.component';
 import { LoginComponent } from './login/login.component';
+import { ContactoComponent } from './contacto/contacto.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { LoginComponent } from './login/login.component';
     PixelsadminComponent,
     PixelrowComponent,
     ResumencompraComponent,
-    LoginComponent
+    LoginComponent,
+    ContactoComponent
   ],
   imports: [
     BrowserModule,

@@ -24,8 +24,7 @@ export class PixelsComponent implements OnInit {
   base64data: any = null;
   pixels = [];
   pixelsselected = [];
-  anchocelda = 0;
-  anchoceldamin = 9;
+  anchocelda = 10;
   altocelda = 10;
   filas = 100;
   columnas = 100;
@@ -56,10 +55,9 @@ export class PixelsComponent implements OnInit {
 
     this.filas = 100;
     this.columnas = 100;
-    this.setupanchoalto();
     this.buildEmptyPixelsArray();
     this.loadData();
-    var self = this;
+    let self = this;
 
     $('#modalCompra').on('shown.bs.modal', function(e) {
       $('#emailinput').focus();
@@ -67,6 +65,7 @@ export class PixelsComponent implements OnInit {
 
     $('#modalCompra').on('hide.bs.modal', function(e) {
       self.clearSelected();
+      self.clearform();
     });
   }
 
@@ -94,20 +93,12 @@ export class PixelsComponent implements OnInit {
 
   loadData() {
     this.loadingUiService.publishBlockMessage();
-    this.pixelService.listar().subscribe(res => {
+    this.pixelService.listarNoAnulados().subscribe(res => {
       if (res.status === 200) {
         this.pixels = res.items;
         this.chkStatusPixels();
       }
     });
-  }
-
-  setupanchoalto(): void {
-    const eltabcuadr = document.getElementById('contenedorpixel');
-    const width = eltabcuadr.offsetWidth;
-    const celdawidth = width / this.columnas;
-    const anchoceldacalc = Math.trunc(celdawidth);
-    this.anchocelda = anchoceldacalc >= this.anchoceldamin ? anchoceldacalc : this.anchoceldamin;
   }
 
   guardaForm() {
@@ -124,26 +115,31 @@ export class PixelsComponent implements OnInit {
     } else {
       const postform = {
         px_email: this.form.email,
-        px_row: this.form.xini,
-        px_col: this.form.yini,
-        px_row_end: this.form.xfin,
-        px_col_end: this.form.yfin,
+        px_row: this.form.yini,
+        px_col: this.form.xini,
+        px_row_end: this.form.yfin,
+        px_col_end: this.form.xfin,
         px_costo: this.form.costototal,
         px_url: this.form.url,
         px_numpx: this.form.numpx,
         px_texto: this.form.detalle
       };
 
-      this.closemodal();
-      this.loadingUiService.publishBlockMessage();
-      this.pixelService.upload(this.base64data, this.datafile.type, this.datafile.name, postform).subscribe(res => {
-        this.clearSelected();
-        this.clearform();
-        if (res.status === 200) {
-          this.swalService.fireSuccess(res.msg);
-          this.router.navigate(['resumen', res.px_id]);
-        }
-      });
+      const msgconfirm = 'Confirma que desea realizar la compra de ' + this.form.numpx + ' pixles por un total de: $ ' + this.form.costototal;
+      if (confirm(msgconfirm)) {
+        this.closemodal();
+        this.loadingUiService.publishBlockMessage();
+        this.pixelService.upload(this.base64data, this.datafile.type, this.datafile.name, postform).subscribe(res => {
+          this.clearSelected();
+          this.clearform();
+          if (res.status === 200) {
+            this.swalService.fireSuccess(res.msg);
+            this.router.navigate(['resumen', res.px_id]);
+          } else {
+            this.swalService.fireError(res.msg);
+          }
+        });
+      }
     }
   }
 
@@ -165,24 +161,26 @@ export class PixelsComponent implements OnInit {
     this.filepreview = '';
   }
 
-
   getcss(pixel) {
     const px_x = pixel.px_row < pixel.px_row_end ? pixel.px_row : pixel.px_row_end;
     const px_y = pixel.px_col < pixel.px_col_end ? pixel.px_col : pixel.px_col_end;
     const idx = 'px' + px_x + '-' + px_y;
     const elpx = document.getElementById(idx);
     if (elpx) {
-      const top = this.eltabcuadr.offsetTop + elpx.offsetTop;
-      const left = this.eltabcuadr.offsetLeft + elpx.offsetLeft;
+      const topPx = elpx.offsetTop;
+      const leftPx = elpx.offsetLeft;
       const anxhopx = this.getancho(pixel);
       const altopx = this.getalto(pixel);
+      const opacidad = pixel.px_estado === 0 ? '0.4' : '1';
+      const border = pixel.px_estado === 0 ? '1px solid black' : '1px solid orange';
       return {
         position: 'absolute',
-        left: left + 'px',
-        top: top + 'px',
+        left: topPx + 'px',
+        top: leftPx + 'px',
         width: anxhopx + 'px',
         height: altopx + 'px',
-        border: '1px solid orange'
+        border,
+        opacity: opacidad
       };
     }
   }
@@ -192,8 +190,8 @@ export class PixelsComponent implements OnInit {
   }
 
   getancho(pixel) {
-    const px_x = pixel.px_row;
-    const px_xend = pixel.px_row_end;
+    const px_x = pixel.px_col;
+    const px_xend = pixel.px_col_end;
     const ancho = this.anchocelda;
     const numpxborde = Math.abs(px_x - px_xend) + 1;
     // var anxhopx = (numpxborde * ancho) + (numpxborde - 1);
@@ -202,14 +200,13 @@ export class PixelsComponent implements OnInit {
   }
 
   getalto(pixel) {
-    const px_x = pixel.px_col;
-    const px_xend = pixel.px_col_end;
+    const px_x = pixel.px_row;
+    const px_xend = pixel.px_row_end;
     const numpxborde = Math.abs(px_x - px_xend) + 1;
     // var altopx = (numpxborde * alto) + (numpxborde - 1);
     const altopx = numpxborde * this.altocelda;
     return altopx;
   }
-
 
   mousedown(e, px) {
     this.clicstart = true;
@@ -312,7 +309,7 @@ export class PixelsComponent implements OnInit {
       const rowend = pxrow < pxrow_end ? pxrow_end : pxrow;
       const colini = pxcol_end > pxcol ? pxcol : pxcol_end;
       const colend = pxcol < pxcol_end ? pxcol_end : pxcol;
-      if ((px_y >= colini && px_y <= colend) && (px_x >= rowini && px_x <= rowend)) {
+      if ((px_y >= rowini && px_y <= rowend) && (px_x >= colini && px_x <= colend)) {
         result = true;
       }
     });
@@ -328,38 +325,6 @@ export class PixelsComponent implements OnInit {
       }
       this.pixelsmatrix.push(pixelr);
     }
-  }
-
-  buildPixelsArray() {
-    this.pixelsmatrix = [];
-    for (let i = 1; i <= this.filas; i++) {
-      const pixelr = [];
-      for (let j = 1; j <= this.columnas; j++) {
-        pixelr.push(this.getNewPixel(j, i));
-      }
-      this.pixelsmatrix.push(pixelr);
-    }
-  }
-
-  gethtmltable() {
-    let htmltable = '<table class="cuadricula" id="tablacuadricula">';
-    this.pixelsmatrix.forEach(e => {
-      htmltable += '<tr>' + this.gethtmlrow(e) + '</tr>';
-    });
-    htmltable += '</table>';
-    return htmltable;
-  }
-
-  gethtmlrow(fila) {
-    let colshtml = '';
-    fila.forEach(px => {
-      const id = 'px' + px.x + '-' + px.y;
-      colshtml += '<td class="hand" ng-mouseover="cntrl.onMouseOver($event,px)"' +
-        '            ng-class="px.cssclass" ng-mousedown="cntrl.mousedown($event, px)" ng-mouseup="cntrl.mouseup($event, px)"' +
-        '            id="' + id + '" width="' + this.anchocelda + 'px" height="' + this.altocelda + 'px">\n' +
-        '                </td>';
-    });
-    return colshtml;
   }
 
   getCeldasMenores(pxref) {

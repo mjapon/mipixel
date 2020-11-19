@@ -41,6 +41,12 @@ export class PixelService extends BaseService {
     return this.doGet(this.http, endopoint, httpOptions);
   }
 
+  listarNoAnulados(): Observable<any> {
+    const endopoint = this.urlEndPoint;
+    const httpOptions = this.getHttpOptions({accion: 'listarnoanull'});
+    return this.doGet(this.http, endopoint, httpOptions);
+  }
+
   getInfoPixel(pxId: number): Observable<any> {//Editado
     const endopoint = this.urlEndPoint;
     const httpOptions = this.getHttpOptions({accion: 'getpixel', pxid: pxId});

@@ -1,14 +1,13 @@
-<div style="margin: 20px">
+<div style="margin: 20px" class="d-flex justify-content-center">
   <div class="contenedorpixel" id="contenedorpixel">
-    <a *ngFor="let item of pixels; trackBy: trackByImgs" href="{{item.px_url}}" target="_blank"
-       title="{{item.px_texto}}">
-      <img [style]="getcss(item)" [src]="geturlimage(item)"/>
-    </a>
     <table class="cuadricula" id="tablacuadricula">
+      <a *ngFor="let item of pixels; trackBy: trackByImgs" href="{{item.px_url}}" target="_blank"
+         title="{{item.px_estado===0?item.px_texto+' [Revisión pendiente]': item.px_texto}}">
+        <img [style]="getcss(item)" [src]="geturlimage(item)"/>
+      </a>
       <tr *ngFor="let roxpx of pixelsmatrix; trackBy: trackByFunctionRow">
-        <td *ngFor="let px of roxpx; trackBy: trackByFunctionCol" class="hand" (mouseover)="onMouseOver($event,px)"
-            [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)" (mouseup)="mouseup($event, px)"
-            id="px{{px.x+'-'+px.y}}" width="{{anchocelda}}px" height="{{altocelda}}px">
+        <td *ngFor="let px of roxpx; trackBy: trackByFunctionCol" class="hand celdapixel" (mouseover)="onMouseOver($event,px)"
+            [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)" (mouseup)="mouseup($event, px)" id="px{{px.x+'-'+px.y}}">
         </td>
       </tr>
     </table>
@@ -71,8 +70,8 @@
                    (change)="onFileChange($event)"/>
           </div>
         </div>
-        <div>
-          <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="80px"
+        <div class="d-flex justify-content-end">
+          <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="100px"
                height="80px"/>
         </div>
       </div>

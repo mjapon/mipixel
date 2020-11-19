@@ -1,7 +1,11 @@
 <div style="margin: 20px">
   <div>
     <h2>Listado de pixels</h2>
-    <table class="table table-bordered">
+    <div class="alert alert-info" *ngIf="pixels.length===0">
+      <hr>
+      <h4 class="text-muted"> No hay registros </h4>
+    </div>
+    <table class="table table-bordered table-sm" *ngIf="pixels.length>0">
       <tr>
         <th><b> Codigo</b></th>
         <th><b>Fecha creación</b></th>
@@ -9,6 +13,7 @@
         <th><b>Cliente</b></th>
         <th><b>Nro Pixeles</b></th>
         <th><b>Monto</b></th>
+        <th><b>Caducidad</b></th>
         <th><b>Acción</b></th>
       </tr>
       <tr *ngFor="let item of pixels">
@@ -31,8 +36,22 @@
           {{item.px_costo}}
         </td>
         <td>
-          <button *ngIf="item.px_estado===0" (click)="anular(item)" class="btn btn-outline-primary">Anular</button>
-          <button *ngIf="item.px_estado===0" (click)="confirmar(item)" class="btn btn-outline-primary">Confirmar</button>
+          {{item.px_fechacadu}}
+        </td>
+        <td>
+          <button (click)="verDetalles(item)" class="btn btn-sm btn-outline-primary" title="Ver detalles">
+            <i class="fas fa-eye"></i>
+          </button>
+          <!--
+          <button *ngIf="item.px_estado!=1" (click)="anular(item)" class="btn btn-sm btn-outline-primary"
+                  title="Anular esta compra">
+            <span class="fab fa-trash"></span>
+          </button>
+          <button *ngIf="item.px_estado===0" (click)="confirmar(item)" class="btn btn-sm btn-outline-primary"
+                  title="Confirmar compra">
+            <span class="fab fa-check"></span>
+          </button>
+          -->
         </td>
       </tr>
     </table>
@@ -40,6 +59,139 @@
 </div>
 
 
+<div class="modal fade " id="modalDetalleCompra" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <b>Detalles de la compra</b>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-5">
+                <span>Dirección de correo:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">{{pixelinfo.px_email}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <span>Fecha de compra:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">{{pixelinfo.px_fecharegistro}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <span>Nro Pixels:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">{{pixelinfo.px_numpx}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <span>Pixels:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">Filas:{{pixelinfo.px_row}}-{{pixelinfo.px_row_end}}
+                  , Columnas:{{pixelinfo.px_col}}-{{pixelinfo.px_col_end}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <span>Costo Total:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">$ {{pixelinfo.px_costo}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <span>Estado:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">{{pixelinfo.estado}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <span>Fecha de caducidad:</span>
+              </div>
+              <div class="col-md-7">
+                <span class="font-weight-bold">{{pixelinfo.px_fechacadu}}</span>
+              </div>
+            </div>
+            <div *ngIf="pixelinfo.px_estado===1">
+              <div class="row">
+                <div class="col-md-5">
+                  <span>Fecha de anulación:</span>
+                </div>
+                <div class="col-md-7">
+                  <span class="font-weight-bold">{{pixelinfo.px_fechanula}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <span>Nota anulación:</span>
+                </div>
+                <div class="col-md-7">
+                  <span class="font-weight-bold">{{pixelinfo.px_obsanula}}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="pixelinfo.px_estado===2">
+              <div class="row">
+                <div class="col-md-5">
+                  <span>Fecha de confirmación:</span>
+                </div>
+                <div class="col-md-7">
+                  <span class="font-weight-bold">{{pixelinfo.px_fechaconfirma}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <span>Nota confirmación:</span>
+                </div>
+                <div class="col-md-7">
+                  <span class="font-weight-bold">{{pixelinfo.px_obsconfirma}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <img class="img-responsive" width="280px"
+                 [src]="geturlimage(pixelinfo)"
+                 height="220px"/>
+          </div>
+        </div>
+      </div>
+      <div>
+        <hr>
+        <div class="d-flex flex-row justify-content-between" style="margin: 10px 20px">
+          <div>
+            <button class="btn btn-outline-primary" *ngIf="pixelinfo.px_estado!=1" (click)="anular(pixelinfo)">
+              <i class="fa fa-trash"></i>
+              Anular
+            </button>
+            <span style="margin: 5px"></span>
+            <button class="btn btn-outline-primary" *ngIf="pixelinfo.px_estado===0" (click)="confirmar(pixelinfo)">
+              <i class="fa fa-check"></i>
+              Confirmar
+            </button>
+          </div>
+          <div>
+            <button class="btn btn-outline-secondary" (click)="closemodal()"> Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
