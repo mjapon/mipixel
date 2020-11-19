@@ -137,6 +137,9 @@ export class PixelsComponent implements OnInit {
             this.router.navigate(['resumen', res.px_id]);
           } else {
             this.swalService.fireError(res.msg);
+            if (res.status === -2) {
+              this.loadData();
+            }
           }
         });
       }
@@ -239,7 +242,9 @@ export class PixelsComponent implements OnInit {
     });
     this.bloque = this.bloque + 1;
     if (!haserror) {
-      $('#modalCompra').modal('show');
+      if (this.form.numpx > 0) {
+        $('#modalCompra').modal('show');
+      }
     }
   }
 
@@ -379,12 +384,24 @@ export class PixelsComponent implements OnInit {
 
   onFileChange(fileInput: any) {
     this.datafile = fileInput.target.files[0];
-    this.preview();
+    if (this.datafile) {
+      const length = (this.datafile.size / 1024) / 1024;
+      if (length > 5) {
+        this.filepreview = null;
+        this.base64data = null;
+        this.swalService.fireError('El tamaño de la imagen es muy grande, elija otra (Tamaño máximo 5MB)');
+      } else {
+        this.preview();
+      }
+    }
   }
 
   preview() {
     const mimeType = this.datafile.type;
     if (mimeType.match(/image\/*/) == null) {
+      this.filepreview = null;
+      this.base64data = null;
+      this.swalService.fireError('Archivo incorrecto, debe cargar una imagen');
       return;
     }
     const reader = new FileReader();

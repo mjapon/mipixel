@@ -23,8 +23,6 @@ export class FautService extends BaseService {
       password
     };
     const httpOptions = this.getHttpOptions({accion: 'auth'});
-    console.log('Valor de form es:', form);
-
     return this.doPost(this.http, endpoint, httpOptions, form);
   }
 

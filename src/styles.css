@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.globalwrapper{
+  min-height: 100%;
+  margin-bottom: -60px;
+}
+
+.push{
+  height: 60px;
+}
+
+
 .contenedorpixel {
   border: 1px solid #bfbfbf;
   width: 1010px !important;/*1000 */
@@ -72,6 +87,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   background-color: #3A3A3A;
   color: white;
   padding: 40px 10px;
+  height: 60px;
 }
 
 .fondonegro{
