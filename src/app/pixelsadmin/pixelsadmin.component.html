@@ -1,60 +1,92 @@
 <div style="margin: 20px">
   <div>
-    <h2>Listado de pixels</h2>
+    <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
+        <h4 style="margin-right: 20px">Listado de pixels <span> ({{pixels.length}})</span></h4>
+        <button class="btn btn-outline-primary" (click)="realoadCompras()"><span class="fas fa-sync"></span> Actualizar <span class="badge badge-danger" *ngIf="nuevasCompras.length>0"> {{nuevasCompras.length}} </span> </button>
+      </div>
+      <div>
+        <span>Usuarios en Línea: {{usuariosEnLinea}}</span>
+      </div>
+    </div>
+
     <div class="alert alert-info" *ngIf="pixels.length===0">
       <hr>
       <h4 class="text-muted"> No hay registros </h4>
     </div>
-    <table class="table table-bordered table-sm" *ngIf="pixels.length>0">
-      <tr>
-        <th><b> Codigo</b></th>
-        <th><b>Fecha creación</b></th>
-        <th><b>Estado</b></th>
-        <th><b>Cliente</b></th>
-        <th><b>Nro Pixeles</b></th>
-        <th><b>Monto</b></th>
-        <th><b>Caducidad</b></th>
-        <th><b>Acción</b></th>
-      </tr>
-      <tr *ngFor="let item of pixels">
-        <td>
-          {{item.px_id}}
-        </td>
-        <td>
-          {{item.px_fecharegistro}}
-        </td>
-        <td>
-          {{item.estado}}
-        </td>
-        <td>
-          {{item.px_email}}
-        </td>
-        <td>
-          {{item.px_numpx}}
-        </td>
-        <td>
-          {{item.px_costo}}
-        </td>
-        <td>
-          {{item.px_fechacadu}}
-        </td>
-        <td>
-          <button (click)="verDetalles(item)" class="btn btn-sm btn-outline-primary" title="Ver detalles">
-            <i class="fas fa-eye"></i>
-          </button>
-          <!--
-          <button *ngIf="item.px_estado!=1" (click)="anular(item)" class="btn btn-sm btn-outline-primary"
-                  title="Anular esta compra">
-            <span class="fab fa-trash"></span>
-          </button>
-          <button *ngIf="item.px_estado===0" (click)="confirmar(item)" class="btn btn-sm btn-outline-primary"
-                  title="Confirmar compra">
-            <span class="fab fa-check"></span>
-          </button>
-          -->
-        </td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+
+      <table class="table table-bordered table-sm" *ngIf="pixels.length>0">
+        <thead>
+        <tr>
+          <th><b> Codigo</b></th>
+          <th><b>Fecha creación</b></th>
+          <th><b>Estado</b></th>
+          <th><b>Cliente</b></th>
+          <th><b>Nro Pixeles</b></th>
+          <th><b>Monto</b></th>
+          <th><b>Caducidad</b></th>
+          <th><b>Acción</b></th>
+        </tr>
+        </thead>
+        <tr *ngFor="let item of pixels">
+          <td>
+            {{item.px_id}}
+          </td>
+          <td>
+            {{item.px_fecharegistro}}
+          </td>
+          <td>
+            {{item.estado}}
+          </td>
+          <td>
+            {{item.px_email}}
+          </td>
+          <td>
+            {{item.px_numpx}}
+          </td>
+          <td>
+            {{item.px_costo}}
+          </td>
+          <td>
+            {{item.px_fechacadu}}
+          </td>
+          <td>
+            <button (click)="verDetalles(item)" class="btn btn-sm btn-outline-primary" title="Ver detalles">
+              <i class="fas fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+        <tfoot>
+        <tr>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+            <span class="font-weight-bold">TOTAL CONFIRMADOS:</span>
+          </td>
+          <td>
+
+          </td>
+          <td>
+            <span class="font-weight-bold">$ {{totalconf}}</span>
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 </div>
 

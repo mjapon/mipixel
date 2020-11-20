@@ -5,6 +5,8 @@ import {SwalService} from '../services/swal.service';
 import {FautService} from '../services/faut.service';
 import {Router} from '@angular/router';
 import {PixelsecureService} from '../services/pixelsecure.service';
+import {ChatService} from '../services/chat.service';
+import {SocketMessage} from '../socketmessage';
 
 declare var $: any;
 
@@ -15,19 +17,42 @@ declare var $: any;
 })
 export class PixelsadminComponent implements OnInit {
   pixels = [];
+  totalconf: number;
   pixelinfo: any;
+  usuariosEnLinea: number;
+  nuevasCompras: Array<any>;
 
   constructor(private pixelSecService: PixelsecureService,
               private pixelService: PixelService,
               private swalSerice: SwalService,
               private fautService: FautService,
               private router: Router,
-              private loadinUiService: LoadingUiService) {
+              private loadinUiService: LoadingUiService,
+              private chatService: ChatService) {
   }
 
   ngOnInit(): void {
     this.verificarLogueado();
     this.pixelinfo = {};
+    this.totalconf = 0;
+    this.nuevasCompras = [];
+    this.usuariosEnLinea = 0;
+
+    this.chatService.getNewPixelMessage().subscribe((message: SocketMessage) => {
+      if (message) {
+        if (message.tipo === 0) {
+          this.usuariosEnLinea++;
+        } else if (message.tipo === 1) {
+          if (this.usuariosEnLinea > 0) {
+            this.usuariosEnLinea--;
+          }
+        } else if (message.tipo === 2) {
+          this.nuevasCompras.push(message.msg);
+        }
+      }
+    });
+
+    this.loadinUiService.publishClearAdmin();
   }
 
   verificarLogueado() {
@@ -38,9 +63,17 @@ export class PixelsadminComponent implements OnInit {
     }
   }
 
+  realoadCompras() {
+    this.loadinUiService.publishClearAdmin();
+    this.loadAll();
+  }
+
   loadAll() {
+    this.nuevasCompras = [];
+    this.loadinUiService.publishBlockMessage();
     this.pixelService.listarAll().subscribe(res => {
       this.pixels = res.items;
+      this.totalconf = res.totalconf;
     });
   }
 

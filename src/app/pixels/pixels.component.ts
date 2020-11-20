@@ -5,6 +5,7 @@ import {DomService} from '../services/dom.service';
 import {DOCUMENT} from '@angular/common';
 import {LoadingUiService} from '../services/loading-ui.service';
 import {Router} from '@angular/router';
+import {ChatService} from '../services/chat.service';
 
 declare var $: any;
 
@@ -39,6 +40,7 @@ export class PixelsComponent implements OnInit {
               private router: Router,
               private domService: DomService,
               private loadingUiService: LoadingUiService,
+              private chatService: ChatService,
               @Inject(DOCUMENT) private document: Document) {
   }
 
@@ -67,6 +69,7 @@ export class PixelsComponent implements OnInit {
       self.clearSelected();
       self.clearform();
     });
+
   }
 
   trackByFunctionRow(index, item) {
@@ -130,6 +133,7 @@ export class PixelsComponent implements OnInit {
         this.closemodal();
         this.loadingUiService.publishBlockMessage();
         this.pixelService.upload(this.base64data, this.datafile.type, this.datafile.name, postform).subscribe(res => {
+          this.chatService.sendMessage(`${postform.px_email} compró ${postform.px_numpx} pixels el ${new Date().toLocaleString()}`);
           this.clearSelected();
           this.clearform();
           if (res.status === 200) {

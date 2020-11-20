@@ -8,10 +8,19 @@ import {PixelsadminComponent} from './pixelsadmin/pixelsadmin.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuditInterceptorService} from './services/audit-interceptor.service';
-import { PixelrowComponent } from './pixelrow/pixelrow.component';
-import { ResumencompraComponent } from './resumencompra/resumencompra.component';
-import { LoginComponent } from './login/login.component';
-import { ContactoComponent } from './contacto/contacto.component';
+import {PixelrowComponent} from './pixelrow/pixelrow.component';
+import {ResumencompraComponent} from './resumencompra/resumencompra.component';
+import {LoginComponent} from './login/login.component';
+import {ContactoComponent} from './contacto/contacto.component';
+import {RouterModule} from '@angular/router';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import {ToastModule} from 'primeng/toast';
+import {MessageService} from 'primeng/api';
+import {environment} from 'src/environments/environment';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+
+const config: SocketIoConfig = {url: environment.socket, options: {}};
 
 @NgModule({
   declarations: [
@@ -28,13 +37,17 @@ import { ContactoComponent } from './contacto/contacto.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule,
+    RouterModule,
+    BrowserAnimationsModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuditInterceptorService,
     multi: true
-  }],
+  }, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

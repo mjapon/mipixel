@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {LoadingUiService} from './services/loading-ui.service';
 import {FautService} from './services/faut.service';
 import {Router} from '@angular/router';
+import {ChatService} from './services/chat.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +15,21 @@ export class AppComponent implements OnInit {
   showloading: boolean;
   islogged: boolean;
   userlogged: any;
+  usuariosEnLinea: number;
+  nuevasCompras: Array<any>;
 
   constructor(private loadingUiService: LoadingUiService,
               private fautService: FautService,
-              private router: Router) {
+              private router: Router,
+              private chatService: ChatService,
+              private messageService: MessageService) {
     this.showloading = false;
   }
 
   ngOnInit(): void {
     this.showloading = false;
+    this.nuevasCompras = [];
+    this.usuariosEnLinea = 0;
     this.loadingUiService.source.subscribe(msg => {
       if (msg === 'block') {
         setTimeout(() => {
@@ -35,6 +43,9 @@ export class AppComponent implements OnInit {
           },
           100
         );
+      } else if (msg === 'clearmsgsocket') {
+        console.log('Se escuchar mensaje clearmsgsocket---->');
+        this.nuevasCompras = [];
       }
     });
     this.verificarLogueado();
@@ -47,6 +58,24 @@ export class AppComponent implements OnInit {
         this.userlogged = this.fautService.getUserInfoSaved();
       }
     });
+
+    this.chatService.getNewPixelMessage().subscribe((message: any) => {
+      if (message) {
+        if (message.tipo === 0) {
+          this.usuariosEnLinea++;
+        } else if (message.tipo === 1) {
+          if (this.usuariosEnLinea > 0) {
+            this.usuariosEnLinea--;
+          }
+        } else if (message.tipo === 2) {
+          this.nuevasCompras.push(message.msg);
+          if (this.islogged) {
+            this.messageService.add({severity: 'success', summary: 'Nueva compra', detail: message.msg});
+          }
+        }
+      }
+    });
+
   }
 
   verificarLogueado() {

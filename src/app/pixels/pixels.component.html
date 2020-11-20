@@ -26,14 +26,14 @@
           <label for="emailinput" class="col-md-3"> <span class="required">*</span> Dirección de correo: </label>
           <div class="col-md-9">
             <input type="text" id="emailinput" class="form-control" value="" [(ngModel)]="form.email"
-                   placeholder="abc@mail.com">
+                   placeholder="abc@mail.com" maxlength="30">
           </div>
         </div>
         <div class="form-group row">
           <label for="costopxinput" class="col-md-3"> <span class="required">*</span> Enlace:</label>
           <div class="col-md-9">
             <input type="text" id="enlaceinput" class="form-control" value="" [(ngModel)]="form.url"
-                   placeholder="http://misitio.com"/>
+                   placeholder="http://misitio.com" maxlength="100"/>
           </div>
         </div>
         <div class="form-group row">

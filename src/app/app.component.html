@@ -6,10 +6,12 @@
       </a>
     </h5>
     <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" *ngIf="islogged && usuariosEnLinea>0"> Usuarios: {{usuariosEnLinea}} </a>
       <a class="p-2 text-dark" routerLink="/">Pixels</a>
       <a class="p-2 text-dark" routerLink="/contacto">Contacto</a>
-      <a class="p-2 text-dark" *ngIf="islogged" routerLink="/admin">Administrar</a>
-
+      <a class="p-2 text-dark" *ngIf="islogged" routerLink="/admin">Administrar <span class="badge badge-danger"
+                                                                                      *ngIf="nuevasCompras.length>0"> {{nuevasCompras.length}} </span>
+      </a>
       <a class="p-2 text-dark" *ngIf="islogged"> {{userlogged.pxus_nombre}} </a>
       <a class="btn btn-outline-warning btn-sm" (click)="login()" *ngIf="!islogged">
         <i class="fas fa-sign-in-alt"></i>
@@ -19,6 +21,8 @@
         Salir</a>
     </nav>
   </div>
+
+  <p-toast position="top-right"></p-toast>
 
   <router-outlet></router-outlet>
   <div class="push">
