@@ -1,13 +1,16 @@
 <div style="margin: 20px" class="d-flex justify-content-center">
   <div class="contenedorpixel" id="contenedorpixel">
     <table class="cuadricula" id="tablacuadricula">
-      <a *ngFor="let item of pixels; trackBy: trackByImgs" href="{{item.px_url}}" target="_blank"
+      <a *ngFor="let item of pixels; trackBy: trackByImgs" href="{{item.px_estado===2?item.px_url:''}}"
+         target="{{item.px_estado===2?'_blank':''}}"
          title="{{item.px_estado===0?item.px_texto+' [Revisión pendiente]': item.px_texto}}">
         <img [style]="getcss(item)" [src]="geturlimage(item)"/>
       </a>
       <tr *ngFor="let roxpx of pixelsmatrix; trackBy: trackByFunctionRow">
-        <td *ngFor="let px of roxpx; trackBy: trackByFunctionCol" class="hand celdapixel" (mouseover)="onMouseOver($event,px)"
-            [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)" (mouseup)="mouseup($event, px)" id="px{{px.x+'-'+px.y}}">
+        <td *ngFor="let px of roxpx; trackBy: trackByFunctionCol" class="hand celdapixel"
+            (mouseover)="onMouseOver($event,px)"
+            [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)" (mouseup)="mouseup($event, px)"
+            id="px{{px.x+'-'+px.y}}">
         </td>
       </tr>
     </table>

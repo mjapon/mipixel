@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
           100
         );
       } else if (msg === 'clearmsgsocket') {
-        console.log('Se escuchar mensaje clearmsgsocket---->');
         this.nuevasCompras = [];
       }
     });

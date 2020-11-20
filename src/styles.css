@@ -113,3 +113,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   width: 10px !important;
   height: 10px !important;
 }
+
+.fondoLogin{
+  background-color: #ced3d6;
+  padding: 70px 10px;
+}
