@@ -3,10 +3,8 @@
     <div class="d-flex justify-content-between">
       <div class="d-flex justify-content-start">
         <h4 style="margin-right: 20px">Listado de pixels <span> ({{pixels.length}})</span></h4>
-        <button class="btn btn-outline-primary" (click)="realoadCompras()"><span class="fas fa-sync"></span> Actualizar <span class="badge badge-danger" *ngIf="nuevasCompras.length>0"> {{nuevasCompras.length}} </span> </button>
-      </div>
-      <div>
-        <span>Usuarios en Línea: {{usuariosEnLinea}}</span>
+        <button class="btn btn-outline-primary" (click)="realoadCompras()"><span class="fas fa-sync"></span> Actualizar
+          <span class="badge badge-danger" *ngIf="nuevasCompras.length>0"> {{nuevasCompras.length}} </span></button>
       </div>
     </div>
 
