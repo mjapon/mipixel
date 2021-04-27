@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrlEndPoint: 'http://192.168.0.116:6543',
-  socket: 'http://192.168.0.116:3000'
+  baseUrlEndPoint: 'http://192.168.0.101:6543',
+  socket: 'http://192.168.0.101:3000'
 };
 
 /*

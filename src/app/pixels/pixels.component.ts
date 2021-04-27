@@ -48,7 +48,7 @@ export class PixelsComponent implements OnInit {
     this.eltabcuadr = document.getElementById('tablacuadricula');
     this.form = {
       email: '',
-      costopx: 1,
+      costopx: 10,
       numpx: 0,
       costototal: 0.0,
       url: '',
@@ -160,7 +160,7 @@ export class PixelsComponent implements OnInit {
   clearform() {
     this.form = {
       email: '',
-      costopx: 1,
+      costopx: 10,
       numpx: 0,
       costototal: 0.0,
       url: ''
